@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
-  spec.add_dependency "go_gem"
-  spec.add_dependency "msgpack"
+  spec.add_dependency "go_gem", "~> 0.6"
+  spec.add_dependency "msgpack", "~> 1.7"
   spec.metadata["rubygems_mfa_required"] = "true"
 end

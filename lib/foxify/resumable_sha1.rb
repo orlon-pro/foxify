@@ -36,6 +36,10 @@ module Foxify
       end
     end
 
+    def self.hexdigest(data)
+      new.update(data).hexdigest
+    end
+
     def ==(other)
       self.class == other.class && state == other.state && finalized == other.finalized
     end

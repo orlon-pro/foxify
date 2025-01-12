@@ -26,6 +26,12 @@ RSpec.describe Foxify::ResumableSHA1 do
     end
   end
 
+  describe "class interface" do
+    it "responds to :hexdigest" do
+      expect(subject.class).to respond_to :hexdigest
+    end
+  end
+
   describe "calculation" do
     it "calculates the correct value of a string" do
       sample = "The quick brown fox jumps over the lazy dog"
@@ -33,6 +39,12 @@ RSpec.describe Foxify::ResumableSHA1 do
       t.update(sample)
 
       expect(t.hexdigest).to eq Digest::SHA1.hexdigest(sample)
+    end
+
+    it "calculates the correct value of a string with the class method :hexdigest" do
+      sample = "The quick brown fox jumps over the lazy dog"
+
+      expect(subject.class.hexdigest(sample)).to eq Digest::SHA1.hexdigest(sample)
     end
 
     it "calculates the correct value of a file when updated with chunks" do
