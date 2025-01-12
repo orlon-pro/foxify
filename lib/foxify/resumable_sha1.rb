@@ -16,12 +16,14 @@ module Foxify
     def reset
       @state = Foxify::Native.sha1_init
       @finalized = false
+      self
     end
 
     def update(data)
       raise Foxify::Error "Invalid state - you must reset this instance before adding new data" if @finalized
 
       @state = Foxify::Native.sha1_update(@state, data)
+      self
     end
 
     def hexdigest
