@@ -1,3 +1,5 @@
+[![Test](https://github.com/orlon-pro/foxify/actions/workflows/main.yml/badge.svg)](https://github.com/orlon-pro/foxify/actions/workflows/main.yml)
+
 # Foxify
 
 TODO: Delete this and the text below, and describe your gem
