@@ -20,6 +20,10 @@ RSpec.describe Foxify::ResumableSHA1 do
     it "responds to :reset" do
       expect(subject).to respond_to :reset
     end
+
+    it "responds to :<<" do
+      expect(subject).to respond_to :<<
+    end
   end
 
   describe "calculation" do

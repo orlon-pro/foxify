@@ -26,6 +26,8 @@ module Foxify
       self
     end
 
+    alias :<< update
+
     def hexdigest
       raise Foxify::Error, "Invalid state - this is already finalized" if @finalized
 

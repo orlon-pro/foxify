@@ -1,3 +1,5 @@
+# Changelog
+
 ## [0.9.1] - 2025-01-12
 
 - Fix gemspec allowed_push_host
