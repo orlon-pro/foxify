@@ -19,6 +19,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"log"
+	"unsafe"
 
 	"github.com/ruby-go-gem/go-gem-wrapper/ruby"
 )
@@ -58,9 +59,11 @@ func rb_foxify_resumable_sha256_update(_ C.VALUE, state C.VALUE, data C.VALUE) C
 	unmarshaler := h.(encoding.BinaryUnmarshaler)
 	unmarshaler.UnmarshalBinary(s)
 
-	buffer := ruby.Value2String(ruby.VALUE(data))
-	if len(buffer) > 0 {
-		h.Write([]byte(buffer))
+	rValue := ruby.VALUE(data)
+	rLength := ruby.RSTRING_LENINT(rValue)
+	if rLength > 0 {
+		char := ruby.RSTRING_PTR(rValue)
+		h.Write(C.GoBytes(unsafe.Pointer(char), C.int(rLength)))
 	}
 
 	marshaler := h.(encoding.BinaryMarshaler)
@@ -80,9 +83,11 @@ func rb_foxify_resumable_sha1_update(_ C.VALUE, state C.VALUE, data C.VALUE) C.V
 	unmarshaler := h.(encoding.BinaryUnmarshaler)
 	unmarshaler.UnmarshalBinary(s)
 
-	buffer := ruby.Value2String(ruby.VALUE(data))
-	if len(buffer) > 0 {
-		h.Write([]byte(buffer))
+	rValue := ruby.VALUE(data)
+	rLength := ruby.RSTRING_LENINT(rValue)
+	if rLength > 0 {
+		char := ruby.RSTRING_PTR(rValue)
+		h.Write(C.GoBytes(unsafe.Pointer(char), C.int(rLength)))
 	}
 
 	marshaler := h.(encoding.BinaryMarshaler)
