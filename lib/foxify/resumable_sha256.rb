@@ -40,6 +40,14 @@ module Foxify
       new.update(data).hexdigest
     end
 
+    def self.file(path)
+      new.tap do |t|
+        stream = File.open(path, "rb")
+        t.update stream.read(1024 * 1024 * 5) until stream.eof?
+        stream.close
+      end
+    end
+
     def ==(other)
       self.class == other.class && state == other.state && finalized == other.finalized
     end

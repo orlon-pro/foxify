@@ -30,6 +30,10 @@ RSpec.describe Foxify::ResumableSHA1 do
     it "responds to :hexdigest" do
       expect(subject.class).to respond_to :hexdigest
     end
+
+    it "responds to :file" do
+      expect(subject.class).to respond_to :file
+    end
   end
 
   describe "calculation" do
@@ -57,7 +61,13 @@ RSpec.describe Foxify::ResumableSHA1 do
         t.update chunk
       end
 
-      expect(t.hexdigest).to eq Digest::SHA1.file(ruby).to_s
+      expect(t.hexdigest).to eq Digest::SHA1.file(ruby).hexdigest
+    end
+
+    it "calculates the correct value of a file via the class method :file" do
+      ruby = `which ruby`.chomp
+
+      expect(Foxify::ResumableSHA1.file(ruby).hexdigest).to eq Digest::SHA1.file(ruby).hexdigest
     end
   end
 
