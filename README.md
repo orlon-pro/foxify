@@ -1,4 +1,5 @@
 [![Test](https://github.com/orlon-pro/foxify/actions/workflows/main.yml/badge.svg)](https://github.com/orlon-pro/foxify/actions/workflows/main.yml)
+[![Gem Version](https://badge.fury.io/rb/foxify.svg)](https://badge.fury.io/rb/foxify)
 
 # Foxify
 
