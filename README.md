@@ -2,7 +2,6 @@
 [![Gem Version](https://badge.fury.io/rb/foxify.svg)](https://badge.fury.io/rb/foxify)
 
 # Foxify
-
 `foxify` is a gem which provides resumable digest implementations in ruby by
 leveraging the power of [Go](https://go.dev/)
 
@@ -87,6 +86,13 @@ restored = Foxify::ResumableSHA1.from_msgpack(data)
 restored.update("jumps over the lazy dog")
 restored.hexdigest # returns "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
 ```
+
+## Mascot
+
+You asked for it, here we go:
+
+<img src="https://github.com/user-attachments/assets/d24520da-ffa5-4203-b0b6-c0770f1b9964" width="200">
+
 
 ## Contributing
 
