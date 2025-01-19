@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [#2](https://github.com/orlon-pro/foxify/issues/2#issue-2782741001) Implement the `file` class method 
+
 ## [0.9.2] - 2025-01-12
 
 - Implement `hexdigest` class method
