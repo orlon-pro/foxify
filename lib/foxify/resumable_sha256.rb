@@ -5,6 +5,8 @@ require "msgpack"
 module Foxify
   # A resumable SHA256 implementation
   class ResumableSHA256
+    CHUNK_SIZE = 1024 * 1024 * 5
+
     attr_reader :state, :finalized
 
     def initialize(state = nil, finalized: false)
@@ -43,7 +45,7 @@ module Foxify
     def self.file(path)
       new.tap do |t|
         stream = File.open(path, "rb")
-        t.update stream.read(1024 * 1024 * 5) until stream.eof?
+        t.update stream.read(CHUNK_SIZE) until stream.eof?
         stream.close
       end
     end
