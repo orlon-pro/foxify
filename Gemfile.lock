@@ -13,7 +13,7 @@ GEM
     go_gem (0.7.0)
     json (2.10.0)
     language_server-protocol (3.17.0.4)
-    msgpack (1.7.5)
+    msgpack (1.8.0)
     parallel (1.26.3)
     parser (3.3.7.1)
       ast (~> 2.4.1)
