@@ -30,6 +30,8 @@ RSpec.describe Foxify do
       end
 
       expect(our_sha256.total).to be <= standard.total
+      puts "Foxify: #{our_sha256}"
+      puts "Digest: #{standard}"
     end
   end
 end

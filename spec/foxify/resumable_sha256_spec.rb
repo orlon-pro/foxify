@@ -69,6 +69,12 @@ RSpec.describe Foxify::ResumableSHA256 do
 
       expect(Foxify::ResumableSHA256.file(ruby).hexdigest).to eq Digest::SHA256.file(ruby).hexdigest
     end
+
+    it "works correctly with a 24MB sample file" do
+      sample = File.join(__dir__, "../files/24mb.random")
+
+      expect(Foxify::ResumableSHA256.file(sample).hexdigest).to eq Digest::SHA256.file(sample).hexdigest
+    end
   end
 
   describe "MessagePack support" do
