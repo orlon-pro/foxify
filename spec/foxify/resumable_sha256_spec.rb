@@ -132,4 +132,19 @@ RSpec.describe Foxify::ResumableSHA256 do
       expect(loaded.hexdigest).to eq control.hexdigest
     end
   end
+
+  describe "IO like methods support" do
+    it "supports #write and returns the number of bytes written" do
+      t = Foxify::ResumableSHA256.new
+
+      lines.each do |line|
+        written = t.write(line)
+        expect(written).to eq line.size
+      end
+
+      control = Digest::SHA256.new
+      lines.each { |line| control << line }
+      expect(t.hexdigest).to eq control.hexdigest
+    end
+  end
 end

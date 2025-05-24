@@ -30,6 +30,11 @@ module Foxify
 
     alias :<< update
 
+    def write(data)
+      update(data)
+      data.size
+    end
+
     def hexdigest
       raise Foxify::Error, "Invalid state - this is already finalized" if @finalized
 
