@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    foxify (0.9.3)
+    foxify (0.9.4)
       go_gem (~> 0.7.2)
       msgpack (~> 1.7)
 

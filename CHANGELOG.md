@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## [0.9.4] - 2025-05-24
+
+- Add `write` method to support IO-like usage (i.e. `IO.copy_stream`)
+- Update dependencies
+
 ## [0.9.3] - 2025-03-31
 
 - Switch to pointers for data passing
