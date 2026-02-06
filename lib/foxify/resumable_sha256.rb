@@ -22,7 +22,7 @@ module Foxify
     end
 
     def update(data)
-      raise Foxify::Error "Invalid state - you must reset this instance before adding new data" if @finalized
+      raise Foxify::Error, "Invalid state - you must reset this instance before adding new data" if @finalized
 
       @state = Foxify::Native.sha256_update(@state, data)
       self
