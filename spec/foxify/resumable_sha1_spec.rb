@@ -133,6 +133,59 @@ RSpec.describe Foxify::ResumableSHA1 do
     end
   end
 
+  describe "error handling" do
+    it "raises Foxify::Error when calling update after hexdigest" do
+      t = Foxify::ResumableSHA1.new
+      t.update("data")
+      t.hexdigest
+
+      expect { t.update("more data") }.to raise_error(Foxify::Error)
+    end
+
+    it "raises Foxify::Error when calling hexdigest twice" do
+      t = Foxify::ResumableSHA1.new
+      t.update("data")
+      t.hexdigest
+
+      expect { t.hexdigest }.to raise_error(Foxify::Error)
+    end
+  end
+
+  describe "#reset" do
+    it "allows continued use after finalization" do
+      t = Foxify::ResumableSHA1.new
+      t.update("first")
+      t.hexdigest
+
+      t.reset
+      t.update("The quick brown fox jumps over the lazy dog")
+
+      expect(t.hexdigest).to eq Digest::SHA1.hexdigest("The quick brown fox jumps over the lazy dog")
+    end
+  end
+
+  describe "#<<" do
+    it "updates the digest and returns self for chaining" do
+      t = Foxify::ResumableSHA1.new
+      result = t << "The quick brown fox " << "jumps over the lazy dog"
+
+      expect(result).to be t
+      expect(t.hexdigest).to eq Digest::SHA1.hexdigest("The quick brown fox jumps over the lazy dog")
+    end
+  end
+
+  describe "#==" do
+    it "returns false for instances with different state" do
+      a = Foxify::ResumableSHA1.new
+      a.update("hello")
+
+      b = Foxify::ResumableSHA1.new
+      b.update("world")
+
+      expect(a).not_to eq b
+    end
+  end
+
   describe "IO like methods support" do
     it "supports #write and returns the number of bytes written" do
       t = Foxify::ResumableSHA1.new
