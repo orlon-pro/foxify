@@ -49,9 +49,9 @@ module Foxify
 
     def self.file(path)
       new.tap do |t|
-        stream = File.open(path, "rb")
-        t.update stream.read(CHUNK_SIZE) until stream.eof?
-        stream.close
+        File.open(path, "rb") do |stream|
+          t.update stream.read(CHUNK_SIZE) until stream.eof?
+        end
       end
     end
 
