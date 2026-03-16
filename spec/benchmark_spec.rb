@@ -13,7 +13,7 @@ RSpec.describe Foxify do
         t = Foxify::ResumableSHA256.new
         input = File.new(file)
         until input.eof?
-          chunk = input.read(chunk_size) until input.eof?
+          chunk = input.read(chunk_size)
           t.update chunk
         end
         t.hexdigest
@@ -23,7 +23,7 @@ RSpec.describe Foxify do
         d = Digest::SHA256.new
         input = File.new(file)
         until input.eof?
-          chunk = input.read(chunk_size) until input.eof?
+          chunk = input.read(chunk_size)
           d.update chunk
         end
         d.hexdigest

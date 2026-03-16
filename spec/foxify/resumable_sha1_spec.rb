@@ -57,7 +57,7 @@ RSpec.describe Foxify::ResumableSHA1 do
       t = Foxify::ResumableSHA1.new
       input = File.new(ruby)
       until input.eof?
-        chunk = input.read(chunk_size) until input.eof?
+        chunk = input.read(chunk_size)
         t.update chunk
       end
 
@@ -175,6 +175,20 @@ RSpec.describe Foxify::ResumableSHA1 do
   end
 
   describe "#==" do
+    it "returns true for instances with the same state" do
+      a = Foxify::ResumableSHA1.new
+      a.update("hello")
+
+      b = Foxify::ResumableSHA1.new
+      b.update("hello")
+
+      expect(a).to eq b
+    end
+
+    it "returns true for two freshly initialized instances" do
+      expect(Foxify::ResumableSHA1.new).to eq Foxify::ResumableSHA1.new
+    end
+
     it "returns false for instances with different state" do
       a = Foxify::ResumableSHA1.new
       a.update("hello")
@@ -183,6 +197,64 @@ RSpec.describe Foxify::ResumableSHA1 do
       b.update("world")
 
       expect(a).not_to eq b
+    end
+  end
+
+  describe "empty and binary data" do
+    it "calculates the correct digest with no data" do
+      expect(Foxify::ResumableSHA1.new.hexdigest).to eq Digest::SHA1.hexdigest("")
+    end
+
+    it "handles empty string updates" do
+      t = Foxify::ResumableSHA1.new
+      t.update("")
+      t.update("hello")
+      t.update("")
+
+      expect(t.hexdigest).to eq Digest::SHA1.hexdigest("hello")
+    end
+
+    it "handles binary data" do
+      binary = (0..255).map(&:chr).join
+      expect(Foxify::ResumableSHA1.hexdigest(binary)).to eq Digest::SHA1.hexdigest(binary)
+    end
+
+    it "handles multi-byte UTF-8 data" do
+      utf8 = "\u{1F600}\u{1F4A9}\u{2603}"
+      expect(Foxify::ResumableSHA1.hexdigest(utf8)).to eq Digest::SHA1.hexdigest(utf8)
+    end
+  end
+
+  describe "#reset" do
+    it "allows reuse after partial update without finalization" do
+      t = Foxify::ResumableSHA1.new
+      t.update("partial data")
+      t.reset
+      t.update("fresh start")
+
+      expect(t.hexdigest).to eq Digest::SHA1.hexdigest("fresh start")
+    end
+  end
+
+  describe "error handling" do
+    it "raises Foxify::Error when calling write after hexdigest" do
+      t = Foxify::ResumableSHA1.new
+      t.update("data")
+      t.hexdigest
+
+      expect { t.write("more data") }.to raise_error(Foxify::Error)
+    end
+  end
+
+  describe "MessagePack support" do
+    it "can restore a finalized instance" do
+      t = Foxify::ResumableSHA1.new
+      t.update("data")
+      t.hexdigest
+
+      restored = Foxify::ResumableSHA1.from_msgpack(t.to_msgpack)
+      expect(restored.finalized).to be true
+      expect { restored.update("more") }.to raise_error(Foxify::Error)
     end
   end
 
